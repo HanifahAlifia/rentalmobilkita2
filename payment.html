@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Rentcar</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,600,700&display=swap" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="assets/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="assets/css/responsive.css" rel="stylesheet" />
+  
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <a class="navbar-brand" href="index.html">
+            <span>
+              Rentcar
+            </span>
+          </a>
+          <div class="navbar-collapse" id="">
+            <div class="custom_menu-btn">
+              <button onclick="openNav()">
+                <span class="s-1"> </span>
+                <span class="s-2"> </span>
+                <span class="s-3"> </span>
+              </button>
+            </div>
+            <div id="myNav" class="overlay">
+              <div class="overlay-content">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
+
+    <head>
+    <title>Car Rental Payment</title>
+  </head>
+  <body>
+    <section class="rent_section layout_padding">
+      <div class="container">
+        <div class="rent_container">
+      <section class="book_section">
+          <div class="form_container">
+            <form action="">
+              <div class="form-row">
+                <div class="col-lg-8">
+                  <div class="form-row">
+    <h1>Car Rental Payment</h1>
+    <form>
+      <div class="col-md-6">
+      <label for="tanggal_awal">Pick Up Date:</label><br>
+      <input type="date" id="tanggal_awal" name="tanggal_awal"><br>
+      </div>
+
+      <div class="col-md-6">
+      <label for="tanggal_akhir">Return Date:</label><br>
+      <input type="date" id="tanggal_akhir" name="tanggal_akhir"><br>
+      </div>
+
+      <div class="col-md-6">
+      <label for="mobil">Price:</label><br>
+      <select id="mobil" name="mobil">
+        <option value="250">Nissan - $250/day</option>
+        <option value="300">Toyota - $300/day</option>
+        <option value="450">Honda - $450/day</option>
+        <option value="150">Jeep - $150/day</option>
+        <option value="350">Suzuki - $350/day</option>
+        <option value="250">Daihatsu - $250/day</option>
+      </select><br>
+
+      <button type="button" onclick="tambahPesanan()">Add Order</button>
+      </div>
+
+      <div class="col-md-6"></div>
+      <h2>Order List</h2>
+      <ul id="daftarPesanan"></ul>
+      
+      <div class="col-md-6"></div>
+      <h2>Total payment</h2>
+      <p id="totalBiaya">-</p>
+    </form>
+    
+    <script>
+      const pesanan = [];
+  
+      function tambahPesanan() {
+        const tanggal_awal = new Date(document.getElementById("tanggal_awal").value);
+        const tanggal_akhir = new Date(document.getElementById("tanggal_akhir").value);
+        const biaya_sewa = document.getElementById("mobil").value;
+        const totalHarga = hitungTotalHarga(tanggal_awal, tanggal_akhir, biaya_sewa);
+  
+        const pesananBaru = {
+          tanggal_awal: tanggal_awal,
+          tanggal_akhir: tanggal_akhir,
+          biaya_sewa: biaya_sewa,
+          totalHarga: totalHarga
+        };
+  
+        pesanan.push(pesananBaru);
+        tampilkanDaftarPesanan();
+      }
+  
+      function hitungTotalHarga(tanggal_awal, tanggal_akhir, biaya_sewa) {
+        var selisih = Math.abs(tanggal_akhir - tanggal_awal);
+        var hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
+        var total_biaya = hari * biaya_sewa;
+        return total_biaya;
+      }
+  
+      function tampilkanDaftarPesanan() {
+        const daftarPesanan = document.getElementById("daftarPesanan");
+        daftarPesanan.innerHTML = "";
+  
+        pesanan.forEach((item, index) => {
+          const listItem = document.createElement("li");
+          listItem.innerHTML = `Tanggal Awal: ${item.tanggal_awal}, Tanggal Akhir: ${item.tanggal_akhir}, Biaya Sewa: ${item.biaya_sewa}, Total Harga: ${item.totalHarga} <button onclick="hapusPesanan(${index})">Hapus</button>`;
+          daftarPesanan.appendChild(listItem);
+        });
+  
+        hitungTotalBiaya();
+      }
+  
+      function hapusPesanan(index) {
+        pesanan.splice(index, 1);
+        tampilkanDaftarPesanan();
+      }
+  
+      function hitungTotalBiaya() {
+        const totalBiayaElement = document.getElementById("totalBiaya");
+        const totalBiaya = pesanan.reduce((total, item) => total + item.totalHarga, 0);
+        totalBiayaElement.textContent = `Total Biaya: $${totalBiaya}`;
+      }
+    </script>
+</body>
+
+  <!-- footer section -->
+  <footer class="container-fluid footer_section">
+  </footer>
+  <!-- footer section -->
+
+  <script src="assets/js/jquery-3.4.1.min.js"></script>
+  <script src="assets/js/bootstrap.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  </script>
+  <script src="assets/js/custom.js"></script>
+
+</body>
+
+</html>
